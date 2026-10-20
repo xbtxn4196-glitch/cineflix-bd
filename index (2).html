@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CineFlix BD - Latest Movies, Web Series & Anime | VidSrc Streaming</title>
+<meta name="description" content="Bangladesh's most advanced movie streaming platform. Watch latest movies, web series, anime with VidSrc premium player.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#060a10;--card:#0f141e;--card2:#161d2b;--border:#1e293b;--accent:#ff3c1a;--accent2:#00d4ff;--text:#e2e8f0;--muted:#94a3b8;--rating:#f59e0b}
+body{background:var(--bg);color:var(--text);font-family: system-ui, -apple-system, sans-serif;line-height:1.5;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{max-width:100%}
+/* HEADER */
+.header{position:sticky;top:0;z-index:100;background:rgba(6,10,16,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.header-inner{max-width:1400px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:22px;letter-spacing:-0.5px;flex-shrink:0}
+.logo-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--accent),#ff6b35);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.logo span{color:var(--accent)}
+.search-wrap{flex:1;max-width:640px;position:relative;display:flex;gap:8px}
+.search-box{flex:1;background:#0f141e;border:1px solid var(--border);border-radius:12px 0 0 12px;padding:12px 16px 12px 44px;color:white;font-size:14px;outline:none;transition:.2s;border-right:none}
+.search-box:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,60,26,0.15)}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:0.5;pointer-events:none}
+.search-btn{background:var(--accent);color:white;border:none;padding:0 22px;border-radius:0 12px 12px 0;font-weight:800;font-size:14px;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.search-btn:hover{background:#e63510;transform:scale(1.01)}
+.search-results{position:absolute;top:110%;left:0;right:0;background:#0f141e;border:1px solid var(--border);border-radius:12px;max-height:420px;overflow-y:auto;display:none;box-shadow:0 20px 60px rgba(0,0,0,0.5);z-index:50}
+.search-item{display:flex;gap:12px;padding:10px 14px;cursor:pointer;border-bottom:1px solid #1a2332}
+.search-item:hover{background:#161d2b}
+.search-item img{width:44px;height:66px;object-fit:cover;border-radius:6px;background:#1a2332}
+.nav-links{display:flex;gap:14px;align-items:center;font-size:14px;font-weight:600;flex-shrink:0}
+.nav-links a{opacity:0.8;transition:.2s}
+.nav-links a:hover{opacity:1;color:var(--accent)}
+.btn-live{background:var(--accent);color:white;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;background:white;border-radius:50%;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+/* AD SLOTS - PROFESSIONAL */
+.ad-slot{background:#0a0f1a;border:1px dashed #1e293b;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px 16px;text-align:center;position:relative;overflow:hidden}
+.ad-slot::before{content:'ADVERTISEMENT';position:absolute;top:6px;left:50%;transform:translateX(-50%);font-size:9px;letter-spacing:1.5px;color:#334155;font-weight:700}
+.ad-label{font-size:11px;color:#64748b;font-weight:600;margin-bottom:4px}
+.ad-slot p{font-size:12px;color:#475569;max-width:600px}
+.ad-code{margin-top:10px;background:#0f141e;border:1px solid var(--border);padding:10px 14px;border-radius:8px;font-size:11px;color:#f59e0b;font-family:monospace;word-break:break-all}
+.ad-top{max-width:1400px;margin:14px auto;padding:0 20px;}
+.ad-top .ad-slot{min-height:90px;background:linear-gradient(135deg,#0f141e 0%,#0a0f1a 100%)}
+.ad-infeed{max-width:1400px;margin:22px auto;padding:0 20px;}
+.ad-infeed .ad-slot{min-height:100px;background:#0f141e}
+.ad-player{margin:12px 0;min-height:70px;background:#080c14;border:1px dashed #2a3a52}
+/* HERO */
+.hero{position:relative;height:520px;overflow:hidden;background:#0a0f1a}
+.hero-track{display:flex;height:100%;transition:transform 0.6s cubic-bezier(0.4,0,0.2,1)}
+.hero-slide{flex:0 0 100%;position:relative;display:flex;align-items:flex-end}
+.hero-bg{position:absolute;inset:0;object-fit:cover;width:100%;height:100%;opacity:0.6}
+.hero-gradient{position:absolute;inset:0;background:linear-gradient(to top, var(--bg) 0%, transparent 60%, rgba(6,10,16,0.6) 100%), linear-gradient(to right, var(--bg) 0%, transparent 55%)}
+.hero-content{position:relative;z-index:2;padding:40px;max-width:700px}
+.badge-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.badge{background:rgba(255,255,255,0.12);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.15);padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px}
+.badge.rating{background:var(--rating);color:#000;border:none;font-weight:800}
+.badge.new{background:#00c851;color:white;border:none}
+.hero-title{font-size:42px;font-weight:900;line-height:1.05;margin-bottom:10px;text-shadow:0 2px 20px rgba(0,0,0,0.5)}
+.hero-desc{color:#cbd5e1;font-size:15px;line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:16px}
+.hero-meta{display:flex;gap:16px;font-size:13px;color:var(--muted);margin-bottom:20px}
+.hero-actions{display:flex;gap:12px}
+.btn-watch{background:white;color:#000;padding:14px 28px;border-radius:10px;font-weight:800;font-size:15px;display:flex;align-items:center;gap:8px;cursor:pointer;border:none;transition:.2s}
+.btn-watch:hover{transform:scale(1.02);background:#f1f5f9}
+.btn-list{background:rgba(255,255,255,0.14);backdrop-filter:blur(10px);color:white;border:1px solid rgba(255,255,255,0.2);padding:14px 24px;border-radius:10px;font-weight:700;cursor:pointer}
+.hero-dots{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:3}
+.dot2{width:30px;height:4px;background:rgba(255,255,255,0.3);border-radius:4px;cursor:pointer;transition:.3s}
+.dot2.active{background:white;width:40px}
+/* EXPLORE */
+.explore{max-width:1400px;margin:20px auto;padding:0 20px}
+.explore-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.explore-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;display:flex;align-items:center;gap:10px;transition:.2s;cursor:pointer}
+.explore-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.explore-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;background:#1a2332}
+.section{max-width:1400px;margin:28px auto;padding:0 20px}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.section-title{font-size:20px;font-weight:800;display:flex;align-items:center;gap:10px}
+.section-title::before{content:'';width:4px;height:20px;background:var(--accent);border-radius:4px}
+.see-all{color:var(--accent);font-size:13px;font-weight:700;cursor:pointer}
+.chip-row{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none}
+.chip{white-space:nowrap;background:var(--card);border:1px solid var(--border);padding:8px 16px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;transition:.2s}
+.chip.active,.chip:hover{background:var(--accent);border-color:var(--accent);color:white}
+.movie-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px}
+@media(min-width:1100px){.movie-grid{grid-template-columns:repeat(6,1fr)}}
+.movie-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:.3s;position:relative}
+.movie-card:hover{transform:translateY(-4px);border-color:#2a3a52;box-shadow:0 12px 32px rgba(0,0,0,0.4)}
+.poster-wrap{position:relative;aspect-ratio:2/3;overflow:hidden;background:#0f141e}
+.poster-wrap img{width:100%;height:100%;object-fit:cover;transition:.4s}
+.movie-card:hover img{transform:scale(1.06)}
+.top-badges{position:absolute;top:8px;left:8px;right:8px;display:flex;justify-content:space-between;align-items:flex-start}
+.badge-sm{font-size:10px;font-weight:800;padding:4px 8px;border-radius:6px}
+.badge-sm.rating{background:var(--rating);color:#000}
+.badge-sm.quality{background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);color:white;border:1px solid rgba(255,255,255,0.15)}
+.status-badge{position:absolute;top:8px;right:8px;font-size:9px;font-weight:800;padding:3px 7px;border-radius:4px;color:white}
+.status-NEW{background:#00c851}.status-UPDATED{background:#0ea5e9}.status-UPCOMING{background:#f59e0b}
+.play-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;opacity:0;transition:.3s}
+.movie-card:hover .play-overlay{opacity:1}
+.play-btn{width:48px;height:48px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#000;font-size:18px;transform:scale(0.8);transition:.3s}
+.movie-card:hover .play-btn{transform:scale(1)}
+.card-body{padding:10px 12px}
+.card-title{font-size:13px;font-weight:700;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:34px}
+.card-meta{font-size:11px;color:var(--muted);display:flex;gap:8px;margin-top:6px;align-items:center}
+.lang-dot{width:6px;height:6px;border-radius:50%;background:#00c851}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.modal.open{display:flex}
+.modal-box{background:#080c14;border:1px solid var(--border);border-radius:16px;overflow:hidden;max-width:1100px;width:100%;max-height:92vh;display:flex;flex-direction:column}
+.modal-top{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border);background:#0f141e}
+.server-tabs{display:flex;gap:8px;flex-wrap:wrap}
+.server-btn{background:#1a2332;border:1px solid var(--border);color:var(--muted);padding:8px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:.2s}
+.server-btn.active{background:var(--accent);color:white;border-color:var(--accent)}
+.close-btn{background:#1a2332;border:none;color:white;width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:18px}
+.player-wrap{aspect-ratio:16/9;background:#000;position:relative}
+.player-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+.player-loading{position:absolute;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;background:#080c14;color:#cbd5e1;font-weight:700;gap:10px}.player-loading:before{content:"";width:18px;height:18px;border:2px solid #334155;border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.player-loading.error{display:block;text-align:center;padding:22% 20px 0;color:#fbbf24}.ad-slot[hidden],.ad-top:has(.ad-slot[hidden]),.ad-infeed:has(.ad-slot[hidden]){display:none}
+.player-note{padding:10px 16px;background:#1a1200;border-top:1px solid #332200;font-size:12px;color:#fbbf24;display:flex;align-items:center;gap:8px}
+.movie-detail{padding:20px;display:grid;grid-template-columns:120px 1fr;gap:20px;overflow-y:auto}
+.movie-detail img{width:120px;border-radius:10px;border:1px solid var(--border)}
+.detail-title{font-size:22px;font-weight:800;margin-bottom:6px}
+.detail-desc{color:#cbd5e1;font-size:14px;line-height:1.6;margin:10px 0}
+.meta-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.meta-item{background:#0f141e;border:1px solid var(--border);padding:10px 12px;border-radius:8px}
+.meta-item b{font-size:11px;color:var(--muted);display:block;margin-bottom:4px;letter-spacing:0.5px}
+.meta-item span{font-size:13px;font-weight:600}
+.download-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.dl-btn{flex:1;min-width:100px;background:#0f141e;border:1px solid var(--border);padding:12px;border-radius:10px;text-align:center;cursor:pointer;transition:.2s}
+.dl-btn:hover{border-color:var(--accent);background:#161d2b}
+.dl-btn b{color:var(--accent);display:block}
+.dl-btn small{color:var(--muted);font-size:11px}
+.footer{background:#080c14;border-top:1px solid var(--border);margin-top:40px;padding:30px 20px}
+.footer-inner{max-width:1400px;margin:0 auto}
+.mirrors{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+.mirror{background:#0f141e;border:1px solid var(--border);padding:8px 14px;border-radius:8px;font-size:12px;font-weight:700}
+@media(max-width:768px){.header-inner{flex-wrap:wrap}.search-wrap{order:3;max-width:100%}.hero{height:460px}.hero-title{font-size:28px}.movie-grid{grid-template-columns:repeat(3,1fr);gap:10px}.movie-detail{grid-template-columns:1fr}.explore-grid{grid-template-columns:repeat(2,1fr)}}
+.loading{height:180px;background:linear-gradient(90deg,#0f141e 25%,#161d2b 50%,#0f141e 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:12px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="logo"><div class="logo-icon">▶</div> CineFlix <span>BD</span></div>
+    <div class="search-wrap">
+      <div class="search-icon">⌕</div>
+      <input id="searchInput" class="search-box" placeholder="মুভির নাম লিখুন (ইংরেজিতে) ...">
+      <button class="search-btn" id="searchBtn">🔍 Search</button>
+      <div id="searchResults" class="search-results"></div>
+    </div>
+    <nav class="nav-links">
+      <a href="#">হোম</a>
+      <a href="#">মুভি</a>
+      <a href="#">সিরিজ</a>
+      <div class="btn-live"><span class="dot"></span> LIVE</div>
+    </nav>
+  </div>
+</header>
+
+<!-- নিজের অনুমোদিত বিজ্ঞাপন নেটওয়ার্কের আসল ট্যাগ এখানে বসালে এই জায়গায় বিজ্ঞাপন দেখাবে। ফাঁকা থাকলে জায়গাটিও থাকবে না। -->
+<div class="ad-top"><div class="ad-slot" id="adTop" hidden></div></div>
+
+<section class="hero" id="hero">
+  <div class="hero-track" id="heroTrack"></div>
+  <div class="hero-dots" id="heroDots"></div>
+</section>
+
+<section class="explore">
+  <div class="section-head"><div class="section-title">Explore CineFlix BD</div></div>
+  <div class="explore-grid">
+    <div class="explore-card"><div class="explore-icon" style="background:#1a1f2e">📡</div><div><b>Live TV</b><br><small style="color:var(--muted)">24/7 চ্যানেল</small></div></div>
+    <div class="explore-card"><div class="explore-icon" style="background:#1a2e1f">🆕</div><div><b>Latest</b><br><small style="color:var(--muted)">নতুন রিলিজ</small></div></div>
+    <div class="explore-card"><div class="explore-icon" style="background:#2e1a1a">🎌</div><div><b>Anime Zone</b><br><small style="color:var(--muted)">Sub & Dub</small></div></div>
+    <div class="explore-card"><div class="explore-icon" style="background:#1a2a2e">🎭</div><div><b>K-Drama</b><br><small style="color:var(--muted)">কোরিয়ান</small></div></div>
+    <div class="explore-card"><div class="explore-icon" style="background:#2e231a">🔥</div><div><b>South Indian</b><br><small style="color:var(--muted)">ডাবড</small></div></div>
+    <div class="explore-card"><div class="explore-icon" style="background:#1a1a2e">🎬</div><div><b>Bollywood</b><br><small style="color:var(--muted)">হিন্দি</small></div></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head"><div class="section-title">ভাষা অনুযায়ী ব্রাউজ করুন</div><div class="see-all">সব দেখুন →</div></div>
+  <div class="chip-row"><div class="chip active">সব</div><div class="chip">Bangla</div><div class="chip">Hindi</div><div class="chip">English</div><div class="chip">Tamil</div><div class="chip">Telugu</div><div class="chip">Korean</div><div class="chip">Japanese</div><div class="chip">Dual Audio</div></div>
+</section>
+
+<section class="section">
+  <div class="section-head"><div class="section-title">জনরা অনুযায়ী</div></div>
+  <div class="chip-row"><div class="chip">Action</div><div class="chip">Thriller</div><div class="chip">Comedy</div><div class="chip">Drama</div><div class="chip">Horror</div><div class="chip">Sci-Fi</div><div class="chip">Romance</div><div class="chip">Crime</div></div>
+</section>
+
+<section class="section">
+  <div class="section-head"><div class="section-title">🔥 Trending Now</div><div class="see-all">সব দেখুন →</div></div>
+  <div class="movie-grid" id="trendingGrid"><div class="loading"></div><div class="loading"></div><div class="loading"></div><div class="loading"></div><div class="loading"></div><div class="loading"></div></div>
+</section>
+
+<!-- নিজের অনুমোদিত নেটওয়ার্কের আসল বিজ্ঞাপন ট্যাগ বসানোর জায়গা; ফাঁকা থাকলে লুকানো থাকবে। -->
+<div class="ad-infeed"><div class="ad-slot" id="adFeed" hidden></div></div>
+
+<section class="section">
+  <div class="section-head"><div class="section-title">✨ নতুন মুভি ও সিরিজ</div><div class="see-all">সব দেখুন →</div></div>
+  <div class="movie-grid" id="latestGrid"></div>
+</section>
+
+<section class="section">
+  <div class="section-head"><div class="section-title">🇧🇩 বাংলা মুভি</div><div class="see-all">সব দেখুন →</div></div>
+  <div class="movie-grid" id="banglaGrid"></div>
+</section>
+
+<section class="section">
+  <div class="section-head"><div class="section-title">⭐ Top Rated</div><div class="see-all">সব দেখুন →</div></div>
+  <div class="movie-grid" id="topGrid"></div>
+</section>
+
+<section class="section">
+  <div class="section-head"><div class="section-title">🎌 Anime & Kids</div><div class="see-all">সব দেখুন →</div></div>
+  <div class="movie-grid" id="animeGrid"></div>
+</section>
+
+<!-- PLAYER MODAL -->
+<div class="modal" id="playerModal">
+  <div class="modal-box">
+    <div class="modal-top">
+      <div class="server-tabs">
+        <button class="server-btn active" onclick="switchServer(0)">VidSrc.to</button>
+        <button class="server-btn" onclick="switchServer(1)">VidSrc.me</button>
+        <button class="server-btn" onclick="switchServer(2)">VidSrc.xyz</button>
+        <button class="server-btn" onclick="switchServer(3)">VidLink.pro</button>
+      </div>
+      <button class="close-btn" onclick="closeModal()">✕</button>
+    </div>
+    <div class="player-wrap" id="playerWrap"><div class="player-loading" id="playerLoading">▶ প্লেয়ার সংযোগ হচ্ছে…</div><iframe id="playerFrame" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+    <div class="player-note" id="playerNote">ভিডিও সরবরাহকারী লোড না হলে অন্য সার্ভার চেষ্টা করুন। তৃতীয় পক্ষের প্লেয়ারের বিজ্ঞাপন বা উপলভ্যতা এই সাইট নিয়ন্ত্রণ করতে পারে না।</div>
+    <div class="movie-detail" id="detailBox"></div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div style="display:flex;gap:12px;align-items:center"><div class="logo-icon" style="width:32px;height:32px;font-size:16px">▶</div><b>CineFlix BD</b> <span style="background:#0f141e;border:1px solid var(--border);padding:4px 10px;border-radius:6px;font-size:12px">Official & Always Active</span></div>
+    <p style="color:var(--muted);font-size:13px;margin-top:10px;max-width:700px">বাংলা, হিন্দি, ডুয়াল অডিও সহ সব মুভি ও সিরিজ। TMDb API + VidSrc Embed ব্যবহার করে বানানো। HEVC 480p থেকে 4K পর্যন্ত।</p>
+    <div class="mirrors"><div class="mirror">🛡️ CineFlixBD.com</div><div class="mirror">.one</div><div class="mirror">.tv</div><div class="mirror">.lol</div><div class="mirror" style="background:var(--accent);color:white;border:none">● LIVE</div></div>
+    <!-- এখানে চাইলে অনুমোদিত বিজ্ঞাপন নেটওয়ার্কের আসল ট্যাগ বসাও। -->
+    <div class="ad-slot" id="adFooter" hidden style="margin-top:18px;min-height:80px"></div>
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);font-size:12px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px">
+      <span>© 2026 CineFlix BD — Built with TMDb & VidSrc</span>
+      <span>Telegram: @cinelfix_bd | FB Group</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const API_KEY = "72c9b953bdc3943cd609c8fae588635f";
+const IMG = "https://image.tmdb.org/t/p/w500";
+const BACKDROP = "https://image.tmdb.org/t/p/original";
+const statuses = ["NEW","UPDATED","UPCOMING",""];
+let currentMovie = null;
+let currentServer = 0;
+let playerTimer = null;
+function vidsrcUrl(id, type="movie", s=1, e=1){
+  const urls = [
+    type==="movie" ? `https://vidsrc.to/embed/movie/${id}` : `https://vidsrc.to/embed/tv/${id}/${s}/${e}`,
+    type==="movie" ? `https://vidsrc.me/embed/movie?tmdb=${id}` : `https://vidsrc.me/embed/tv?tmdb=${id}&season=${s}&episode=${e}`,
+    type==="movie" ? `https://vidsrc.xyz/embed/movie?tmdb=${id}` : `https://vidsrc.xyz/embed/tv?tmdb=${id}&season=${s}&episode=${e}`,
+    type==="movie" ? `https://vidlink.pro/movie/${id}` : `https://vidlink.pro/tv/${id}/${s}/${e}`
+  ];
+  return urls[currentServer] || urls[0];
+}
+async function fetchTMDB(url){ const r=await fetch(url); return r.json(); }
+function cardHTML(m){
+  if(!m.poster_path) return "";
+  const rating = m.vote_average ? m.vote_average.toFixed(1) : "8.5";
+  const year = (m.release_date||m.first_air_date||"2026").slice(0,4);
+  const lang = m.original_language==="bn" ? "Bangla" : m.original_language==="hi" ? "Hindi" : m.original_language==="en" ? "English" : (m.original_language||"Dual-Aud");
+  const st = statuses[Math.floor(Math.random()*statuses.length)];
+  return `<div class="movie-card" onclick="openPlayer(${m.id}, '${m.media_type||'movie'}')">
+    <div class="poster-wrap">
+      <img loading="lazy" src="${IMG}${m.poster_path}" alt="${m.title||m.name}" onerror="this.src='https://via.placeholder.com/300x450?text=No+Poster'">
+      <div class="top-badges"><span class="badge-sm rating">★ ${rating}</span><span class="badge-sm quality">HD</span></div>
+      ${st?`<span class="status-badge status-${st}">${st}</span>`:""}
+      <div class="play-overlay"><div class="play-btn">▶</div></div>
+    </div>
+    <div class="card-body"><div class="card-title">${m.title||m.name}</div><div class="card-meta"><span class="lang-dot"></span>${lang} • ${year} • ${m.media_type==="tv"?"Series":"Movie"}</div></div>
+  </div>`
+}
+async function loadHero(){
+  const data = await fetchTMDB(`https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}`);
+  const top5 = data.results.slice(0,5);
+  const track = document.getElementById("heroTrack");
+  const dots = document.getElementById("heroDots");
+  track.innerHTML = top5.map(m=>`
+    <div class="hero-slide">
+      <img class="hero-bg" src="${BACKDROP}${m.backdrop_path}" onerror="this.style.background='#0a0f1a'">
+      <div class="hero-gradient"></div>
+      <div class="hero-content">
+        <div class="badge-row"><span class="badge rating">★ ${m.vote_average.toFixed(1)} RMDB</span><span class="badge">${(m.release_date||m.first_air_date||"2026").slice(0,4)}</span><span class="badge">HD</span><span class="badge new">TRENDING #${top5.indexOf(m)+1}</span></div>
+        <div class="hero-title">${m.title||m.name}</div>
+        <div class="hero-meta"><span>⏱ ${(m.runtime||120)} Min</span><span>🌐 ${(m.original_language||'en').toUpperCase()}</span><span>🎬 ${m.media_type==="tv"?"Web Series":"Movie"}</span></div>
+        <div class="hero-desc">${m.overview||"একটি অসাধারণ গল্প, যেখানে রহস্য, অ্যাকশন এবং আবেগ একসাথে মিশে আছে।"}</div>
+        <div class="hero-actions"><button class="btn-watch" onclick="openPlayer(${m.id},'${m.media_type||'movie'}')">▶ Watch Now</button><button class="btn-list">+ My List</button></div>
+      </div>
+    </div>`).join("");
+  dots.innerHTML = top5.map((_,i)=>`<div class="dot2 ${i===0?'active':''}" onclick="goHero(${i})"></div>`).join("");
+  let idx=0; setInterval(()=>{idx=(idx+1)%top5.length; goHero(idx)}, 5000);
+}
+function goHero(i){ document.getElementById("heroTrack").style.transform=`translateX(-${i*100}%)`; document.querySelectorAll(".dot2").forEach((d,di)=>d.classList.toggle("active",di===i)); }
+async function loadGrids(){
+  const [trending, latest, top, bangla, anime] = await Promise.all([
+    fetchTMDB(`https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}`),
+    fetchTMDB(`https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&region=BD&page=1`),
+    fetchTMDB(`https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}&page=1`),
+    fetchTMDB(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_original_language=bn&sort_by=popularity.desc&page=1`),
+    fetchTMDB(`https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_genres=16&sort_by=popularity.desc`)
+  ]);
+  document.getElementById("trendingGrid").innerHTML = trending.results.slice(0,12).map(m=>cardHTML(m)).join("");
+  document.getElementById("latestGrid").innerHTML = latest.results.slice(0,12).map(m=>cardHTML(m)).join("");
+  document.getElementById("topGrid").innerHTML = top.results.slice(0,12).map(m=>cardHTML(m)).join("");
+  let banglaList = bangla.results.length?bangla.results:trending.results.slice(12,18);
+  if(banglaList.length<6) banglaList = trending.results.slice(6,12);
+  document.getElementById("banglaGrid").innerHTML = banglaList.slice(0,12).map(m=>cardHTML(m)).join("");
+  document.getElementById("animeGrid").innerHTML = anime.results.slice(0,12).map(a=>cardHTML({...a, media_type:"tv"})).join("");
+}
+async function openPlayer(id, type="movie"){
+  currentMovie = {id,type}; currentServer=0;
+  document.querySelectorAll(".server-btn").forEach((b,i)=>b.classList.toggle("active",i===0));
+  const frame=document.getElementById("playerFrame");
+  const loading=document.getElementById("playerLoading");
+  loading.className="player-loading"; loading.textContent="▶ প্লেয়ার সংযোগ হচ্ছে…";
+  frame.onload=()=>{ clearTimeout(playerTimer); loading.style.display="none"; };
+  frame.src = vidsrcUrl(id,type);
+  loading.style.display="flex";
+  clearTimeout(playerTimer);
+  playerTimer=setTimeout(()=>{ loading.className="player-loading error"; loading.textContent="প্লেয়ারটি সাড়া দিচ্ছে না। অন্য সার্ভার চেষ্টা করুন; সব সার্ভার ব্যর্থ হলে এই শিরোনামের বৈধ স্ট্রিম এখানে নেই।"; },18000);
+  document.getElementById("playerModal").classList.add("open"); document.body.style.overflow="hidden";
+  const detail = await fetchTMDB(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=en-US`);
+  const credits = await fetchTMDB(`https://api.themoviedb.org/3/${type}/${id}/credits?api_key=${API_KEY}`).catch(()=>({cast:[]}));
+  document.getElementById("detailBox").innerHTML = `
+    <img src="${IMG}${detail.poster_path}" onerror="this.src='https://via.placeholder.com/300x450'">
+    <div><div class="detail-title">${detail.title||detail.name} <small style="font-weight:400;color:var(--muted)">(${(detail.release_date||detail.first_air_date||"2026").slice(0,4)})</small></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0"><span class="badge rating">★ ${detail.vote_average.toFixed(1)}</span><span class="badge">${detail.runtime||detail.episode_run_time?.[0]||120} Min</span><span class="badge">${detail.original_language?.toUpperCase()}</span><span class="badge">${detail.status||'Released'}</span></div>
+      <div style="font-size:13px;color:var(--muted)">${detail.genres?.map(g=>g.name).join(", ")||"Drama, Action"}</div>
+      <div class="detail-desc">${detail.overview||"No overview."}</div>
+      <div class="meta-grid"><div class="meta-item"><b>Type</b><span>${type==="tv"?"Web Series":"Movie"}</span></div><div class="meta-item"><b>Language</b><span>${detail.spoken_languages?.map(l=>l.english_name).join(", ")||"English"}</span></div><div class="meta-item"><b>Rating</b><span>${detail.vote_average.toFixed(1)} / 10</span></div><div class="meta-item"><b>Cast</b><span>${credits.cast?.slice(0,3).map(c=>c.name).join(", ")||"..."}</span></div></div>
+      <div class="download-row"><div class="dl-btn"><b>📼 480p</b><small>400MB</small></div><div class="dl-btn"><b>📺 720p</b><small>900MB</small></div><div class="dl-btn" style="border-color:var(--accent)"><b>🎞️ 1080p</b><small>1.8GB</small></div><div class="dl-btn"><b>💎 4K</b><small>4GB</small></div></div>
+    </div>`;
+}
+function switchServer(n){ currentServer=n; document.querySelectorAll(".server-btn").forEach((b,i)=>b.classList.toggle("active",i===n)); if(currentMovie) openPlayer(currentMovie.id,currentMovie.type); }
+function closeModal(){ clearTimeout(playerTimer); document.getElementById("playerModal").classList.remove("open"); document.getElementById("playerFrame").src=""; document.getElementById("playerLoading").style.display="flex"; document.body.style.overflow=""; }
+
+// SEARCH with button
+function doSearch(){
+  const q=document.getElementById("searchInput").value.trim();
+  if(!q) return;
+  document.getElementById("searchResults").style.display="block";
+  document.getElementById("searchResults").innerHTML=`<div style="padding:14px;color:var(--muted)">🔍 "${q}" খুঁজছি...</div>`;
+  fetchTMDB(`https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&query=${encodeURIComponent(q)}&page=1`).then(d=>{
+    const box=document.getElementById("searchResults");
+    if(!d.results.length){box.innerHTML=`<div style="padding:14px;color:var(--muted)">কিছু পাওয়া যায়নি</div>`;return}
+    box.innerHTML=d.results.slice(0,8).map(m=>`<div class="search-item" onclick="openPlayer(${m.id},'${m.media_type||'movie'}');this.parentElement.style.display='none'"><img src="${m.poster_path?IMG+m.poster_path:'https://via.placeholder.com/100x150?text=?'}"><div><div style="font-weight:700;font-size:14px">${m.title||m.name}</div><div style="font-size:12px;color:var(--muted)">${(m.release_date||m.first_air_date||"").slice(0,4)} • ${m.media_type} • ★ ${m.vote_average?.toFixed(1)||"N/A"}</div><div style="font-size:12px;color:#94a3b8;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden">${(m.overview||"").slice(0,80)}</div></div></div>`).join("");
+    box.style.display="block";
+  });
+}
+document.getElementById("searchBtn").addEventListener("click", doSearch);
+document.getElementById("searchInput").addEventListener("keydown", e=>{ if(e.key==="Enter") doSearch(); });
+let t; document.getElementById("searchInput").addEventListener("input", e=>{ clearTimeout(t); t=setTimeout(doSearch,700); });
+document.addEventListener("click",e=>{ if(!e.target.closest(".search-wrap")) document.getElementById("searchResults").style.display="none"; });
+
+loadHero(); loadGrids();
+</script>
+</body>
+</html>
